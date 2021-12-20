@@ -15,7 +15,7 @@ h1 {
 }
 
 main {
-  height: 100vh;
+  height: 100%;
   background: rgb(235,233,231);
   background: linear-gradient(180deg, rgba(235,233,231,1) 31%, rgba(11,12,74,1) 100%);
 }
@@ -93,6 +93,11 @@ main {
   width: 50px;
   height: 50px;
   margin: 1%;
+  border-radius: 5px;
+}
+
+.letter:hover {
+  cursor: pointer;
 }
 
 /*Card Layout*/
@@ -114,14 +119,10 @@ main {
   position: absolute;
   right: 10%;
   top: 40%;
-  font-size: 120%;
+  font-size: 90%;
   font-weight: 300;
 }
 
-/* #stats {
-  background: rgb(242,202,137);
-  background: radial-gradient(circle, rgba(242,202,137,1) 0%, rgba(226,145,77,1) 100%);
-} */
 #stats,
 #letter-buttons, 
 #word-area{
@@ -129,6 +130,10 @@ main {
   background: radial-gradient(circle, rgba(242,202,137,1) 0%, rgba(226,145,77,1) 100%);
   margin: 5% 2%;
   border-radius:10px;
+}
+
+#letter-buttons {
+  text-align: center;
 }
 
 #word-area{
@@ -160,6 +165,50 @@ main {
   padding-bottom: 30px;
 }
 
+@media screen and (max-width: 950px) {
+  #row{
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  #word-area{
+    height: 30vh;
+    width: 90%;
+  }
+
+  #rightHalf {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  #letter-buttons {
+    flex: 1 0 100px;
+  }
+
+  #stats {
+    flex: 3 0 100px;
+  }
+
+  #stats,
+  #letter-buttons, 
+  #word-area{
+  margin: 2%;
+  }
+
+  .letter{
+    width: 40px;
+    height: 40px;
+    margin: .5%;
+  }
+
+  #time-area{
+    margin: 0 5%;
+    font-size: 80%;
+  }
+  
+}
 
 @media screen and (max-width: 620px) {
   h1{
@@ -177,6 +226,15 @@ main {
     background-color: rgba(0,0,0,0.75);
     text-align: center;
     padding: 2%;
+  }
+  #scores {
+    display: flex;
+    flex-direction: column;
+  }
+  #reset-btn {
+    position: initial;
+    align-self: center;
+    
   }
   
 }
