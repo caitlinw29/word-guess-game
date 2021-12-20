@@ -175,10 +175,6 @@ main {
   font-size: 300%;
 }
 
-.hidden {
-  display: none;
-}
-
 @media screen and (max-width: 950px) {
   #row{
     flex-direction: column;
