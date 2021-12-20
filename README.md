@@ -5,6 +5,8 @@
 
 * To play, click the start button and choose letters. Each round is timed. Win by guessing the word before time runs out.
 
+* The buttons on the screen do not currently work, play only by using keyboard. Letter buttons are a feature to add in the future.
+
 * See page: [Word Guessing Game](https://caitlinw29.github.io/word-guess-game/)
 
 ## Instructions

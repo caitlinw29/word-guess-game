@@ -1,21 +1,21 @@
-var startBtn = document.getElementById("start");
+const startBtn = document.getElementById("start");
 const resetBtn = document.getElementById("reset-btn");
 const overlay = document.getElementById("overlay");
-var instructions = document.getElementById("instructions");
+const instructions = document.getElementById("instructions");
 const currentWord = document.getElementById("current-word");
 const letterBtns = document.getElementById("letter-buttons");
-const allBtns = document.querySelectorAll("button");
 let overlayVisible = false;
-var choices = [];
-var choicesUp = [];
+let choices = [];
+let choicesUp = [];
 const timer = document.getElementById("timer");
 const winsText = document.getElementById("wins");
 const lossesText = document.getElementById("losses");
 let wins = 0;
 let losses = 0;
-var isWin = false;
-var blanks = [];
+let isWin = false;
+let blanks;
 let word = "";
+let keyPressed;
 
 function init() {
   getWins();
@@ -48,18 +48,15 @@ function startGame(){
       buildWord();
   });
 
-
+  //set up timer
   var timerInterval = setInterval(function() {
     secondsLeft--;
     timer.textContent = secondsLeft;
-
-   
-      if (isWin && secondsLeft > 0) {
-        clearInterval(timerInterval);
-        winGame();
-      }
-    
-
+    //set conditions to win or lose the game
+    if (isWin && secondsLeft > 0) {
+      clearInterval(timerInterval);
+      winGame();
+    }
     if(secondsLeft === 0) {
       // Stops execution of action at set interval
       clearInterval(timerInterval);
@@ -69,12 +66,55 @@ function startGame(){
   }, 1000);
 }
 
+//build the word by placing _ for each letter
+function buildWord() {
+  currentWord.innerHTML = "";
+  for (let i=0; i<numSpaces; i++){
+    blanks.push("_");
+  }
+  currentWord.textContent = blanks.join(" ");
+}
+
+
+//listen for keys pressed
+function keydownAction(event) {
+  keyPressed = event.key.toUpperCase();
+  var stringLetters = "abcdefghijklmnopqrstuvwxyz";
+  var letters = stringLetters.split("");
+  if (!letters.includes(event.key)) {
+    //if the pressed key is not a letter, return
+    return;
+  } else {    
+    //otherwise check the letter, and check for a win
+    checkLetter(keyPressed)
+    checkWin();
+  }
+}
+
+//check if letter is in current word
+function checkLetter(keyPressed){
+  var letterInWord = false;
+  if (choicesUp.includes(keyPressed)) {
+      letterInWord = true;
+    }
+  if (letterInWord) {
+    for (let i = 0; i < numSpaces; i++) {
+      //check each space in the word, and if the letter matches, fill it in
+      if (word.charAt(i) === keyPressed) {
+        blanks[i] = keyPressed;
+        currentWord.textContent = blanks.join(" ")
+      }
+    }
+  }
+}
+
+//check if all the letters have been filled
 function checkWin() {
   if (word === blanks.join("")) {
     isWin = true;
   }
 }
-
+//functions for setting the game up if user wins or loses
 function winGame() {
   currentWord.textContent = "YOU WON!!! ";
   wins++;
@@ -83,7 +123,6 @@ function winGame() {
   localStorage.setItem("winCount", wins);
   startBtn.textContent = "Play Again";
 }
-
 function loseGame() {
   currentWord.textContent = "GAME OVER";
   losses++;
@@ -93,83 +132,11 @@ function loseGame() {
   startBtn.textContent = "Play Again";
 }
 
-function buildWord() {
-  currentWord.innerHTML = "";
-  for (let i=0; i<numSpaces; i++){
-    blanks.push("_");
-  }
-  currentWord.textContent = blanks.join(" ");
-}
-// currentWord.innerHTML += " " + choices[i].toUpperCase() + " ";
-
-//listen for keys pressed
-var keyPressed;
-
-function keydownAction(event) {
-
-  keyPressed = event.key.toUpperCase();
-  var stringLetters = "abcdefghijklmnopqrstuvwxyz";
-  var letters = stringLetters.split("");
-
-  if (!letters.includes(event.key)) {
-    return;
-  } else {    
-    checkLetter(keyPressed)
-    checkWin();
-  }
-}
-
-
-//check if letter is in current word
-function checkLetter(keyPressed){
-  var letterInWord = false;
-
-  if (choicesUp.includes(keyPressed)) {
-      letterInWord = true;
-    }
-  if (letterInWord) {
-    for (let i = 0; i < numSpaces; i++) {
-      if (word.charAt(i) === keyPressed) {
-        blanks[i] = keyPressed;
-        currentWord.textContent = blanks.join(" ")
-      }
-    }
-
-  }
-  // //match clicked button or key press to letter in choices
-  // if (choicesUp.includes(keyPressed)){
-  //   console.log("Hello");
-  // }
-
-  //if match, turn button green
-
-  //if not match, turn button red
-
-  // for (let i=0; i<allBtns.length; i++){
-  //   allBtns[i].addEventListener("click", function(event){
-  //     if (!event.target.matches('button.letter')) return // reject other buttons
-  //     console.log(event.target.value) ;
-  //   })
-  // }
-  // letterBtns.addEventListener("click", function(event) {
-  //   if (!event.target.matches('button.letter')) return // reject other buttons
-  //   console.log(event.target) ;
-  //   // if (choicesUp.includes(target.textContent)){
-  //   //   target.style.backgroundColor = "green";
-  //   // }
-   
-  // });
-
-}
-
-
-
 //functions to show how-to-play overlay on click of button
 function overlayOn() {
   overlay.style.display = "block";
   overlayVisible = true;
 }
-
 function overlayOff() {
   overlay.style.display = "none";
   overlayVisible = false;
@@ -178,6 +145,7 @@ overlay.addEventListener('click', overlayOff);
 instructions.addEventListener('click', overlayOn);
 
 
+//when reset button is clicked, clear scores and local storage
 resetBtn.addEventListener("click", function(){
   wins = 0;
   winsText.textContent = 0;
@@ -187,7 +155,7 @@ resetBtn.addEventListener("click", function(){
   localStorage.setItem("loseCount", losses);
 });
 
-
+//get wins and losses from local storage at load-in
 function getWins() {
   var storedWins = localStorage.getItem("winCount");
   if (storedWins === null) {
@@ -197,7 +165,6 @@ function getWins() {
   }
   winsText.textContent = wins;
 }
-
 function getlosses() {
   var storedLosses = localStorage.getItem("loseCount");
   if (storedLosses === null) {
