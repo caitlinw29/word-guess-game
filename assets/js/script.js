@@ -45,14 +45,7 @@ function overlayOff() {
   overlayVisible = false;
 }
 overlay.addEventListener('click', overlayOff);
-startBtn.addEventListener('click', overlayOff);
-instructions.addEventListener('click', function(){
-  if (overlayVisible) {
-    overlayOff();
-  } else {
-    overlayOn();
-  }
-});
+instructions.addEventListener('click', overlayOn);
 
 
 
