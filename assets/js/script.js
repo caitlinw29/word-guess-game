@@ -1,14 +1,35 @@
 var startBtn = document.getElementById("start");
 const overlay = document.getElementById("overlay");
 var instructions = document.getElementById("instructions");
+const currentWord = document.getElementById("current-word");
 let overlayVisible = false;
+var choices;
 
 startBtn.addEventListener("click", startGame);
 
 function startGame(){
   document.addEventListener("keydown", keydownAction);
+  //fetch request gets one word with swear words off
+  var requestUrl = 'https://random-word-api.herokuapp.com/word?number=1&swear=0';
+
+  fetch(requestUrl)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      choices = data[0].split("");
+      buildWord();
+    
+    });
 }
 
+function buildWord() {
+  currentWord.innerHTML = "";
+  for (let i=0; i<choices.length; i++){
+    currentWord.innerHTML += " _ ";
+  }
+}
+// currentWord.innerHTML += " " + choices[i].toUpperCase() + " ";
 
 //listen for keys pressed
 var keyPressed;
