@@ -50,7 +50,6 @@ function startGame(){
     })
     .then(function (data) {
       word = data.toString().toUpperCase();
-      console.log(word);
       choices = data[0].split("");
       numSpaces = choices.length;
       for (let i=0; i<numSpaces; i++){
@@ -94,7 +93,6 @@ function keydownAction(event) {
   for (let i=0; i<options.length; i++){
     //if the data-letter of the button matches the key that was pressed, make that button the target
     if ($(options[i]).data('letter') == keyPressed){
-      console.log("Hello there")
       target = options[i];
     }
   }
@@ -107,7 +105,15 @@ function keydownAction(event) {
     checkWin();
   }
 }
-
+//check for button press
+function buttonPress(event) {
+  target = event.target;
+  if (target.className != "letter") return;
+  btnPressed = target.textContent;
+  //check the letter, and check for a win
+  checkLetter(btnPressed)
+  checkWin();
+}
 //check if letter is in current word
 function checkLetter(keyPressed){
   if (choicesUp.includes(keyPressed)) {
@@ -126,34 +132,7 @@ function checkLetter(keyPressed){
     }
   }
 }
-//check for button press
-function buttonPress(event) {
-  target = event.target;
-  if (target.className != "letter") return;
 
-  btnPressed = target.textContent;
-  //check the letter, and check for a win
-  checkLetter(btnPressed)
-  checkWin();
-}
-
-// function checkBtnLetter(btnPressed){
-//   if (choicesUp.includes(btnPressed)) {
-//       letterInWord = true;
-//     }
-//   if (letterInWord) {
-//     target.style.backgroundColor = "green";
-//     for (let i = 0; i < numSpaces; i++) {
-//       //check each space in the word, and if the letter matches, fill it in
-//       if (word.charAt(i) === btnPressed) {
-//         blanks[i] = btnPressed;
-//         currentWord.textContent = blanks.join(" ")
-//       }
-//     }
-//   } else {
-//     target.style.backgroundColor = "red";
-//   }
-// }
 //check if all the letters have been filled
 function checkWin() {
   if (word === blanks.join("")) {
