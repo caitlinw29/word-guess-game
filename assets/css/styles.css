@@ -19,7 +19,7 @@ h1 {
 }
 
 main #row {
-  height: 100vh;
+  height: 100%;
   background: rgb(235,233,231);
   background: linear-gradient(180deg, rgba(235,233,231,1) 31%, rgba(11,12,74,1) 100%);
 }
