@@ -178,6 +178,8 @@ main {
 
 #current-word {
   font-size: 300%;
+  white-space: pre;
+  text-align: center;
 }
 
 @media screen and (max-width: 950px) {
