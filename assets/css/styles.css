@@ -18,7 +18,7 @@ h1 {
   margin-bottom: 1%;
 }
 
-main {
+main #row {
   height: 100vh;
   background: rgb(235,233,231);
   background: linear-gradient(180deg, rgba(235,233,231,1) 31%, rgba(11,12,74,1) 100%);
