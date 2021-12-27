@@ -18,7 +18,7 @@ h1 {
   margin-bottom: 1%;
 }
 
-main #row {
+main {
   height: 100%;
   background: rgb(235,233,231);
   background: linear-gradient(180deg, rgba(235,233,231,1) 31%, rgba(11,12,74,1) 100%);
@@ -111,6 +111,7 @@ main #row {
 #row {
   display: flex;
   justify-content: space-around;
+  height: 100%;
 }
 
 #scores {
