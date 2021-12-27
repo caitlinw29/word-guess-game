@@ -3,9 +3,7 @@
 ## Description
 * word-guess-game is an interactive game to play in the browser. It is built with JavaScript and Web APIs.
 
-* To play, click the start button and choose letters. Each round is timed. Win by guessing the word before time runs out.
-
-* The buttons on the screen do not currently work, play only by using keyboard. Letter buttons are a feature to add in the future.
+* To play, click the start button and choose letters by clicking the button or pressing a key for that letter. Each round is timed. Win by guessing the word before time runs out.
 
 * See page: [Word Guessing Game](https://caitlinw29.github.io/word-guess-game/)
 
