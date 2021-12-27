@@ -4,7 +4,6 @@ const overlay = document.getElementById("overlay");
 const instructions = document.getElementById("instructions");
 const currentWord = document.getElementById("current-word");
 const letterBtns = document.getElementById("letter-buttons");
-const header = document.getElementById("targetInstructions");
 let overlayVisible = false;
 let choices = [];
 let choicesUp = [];
@@ -90,8 +89,15 @@ function buildWord() {
 
 //listen for keys pressed
 function keydownAction(event) {
-  target = event.target;
   keyPressed = event.key.toUpperCase();
+  let options = document.querySelectorAll("button[data-letter]");
+  for (let i=0; i<options.length; i++){
+    //if the data-letter of the button matches the key that was pressed, make that button the target
+    if ($(options[i]).data('letter') == keyPressed){
+      console.log("Hello there")
+      target = options[i];
+    }
+  }
   if (!letters.includes(event.key)) {
     //if the pressed key is not a letter, return
     return;
