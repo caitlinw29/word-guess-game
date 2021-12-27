@@ -4,6 +4,7 @@ const overlay = document.getElementById("overlay");
 const instructions = document.getElementById("instructions");
 const currentWord = document.getElementById("current-word");
 const letterBtns = document.getElementById("letter-buttons");
+const header = document.getElementById("targetInstructions");
 let overlayVisible = false;
 let choices = [];
 let choicesUp = [];
@@ -15,7 +16,13 @@ let losses = 0;
 let isWin = false;
 let blanks;
 let word = "";
+let btnPressed;
 let keyPressed;
+var letterInWord = false;
+var stringLetters = "abcdefghijklmnopqrstuvwxyz";
+var letters = stringLetters.split("");
+let target;
+
 
 function init() {
   getWins();
@@ -29,6 +36,11 @@ function startGame(){
   isWin = false;
   var secondsLeft = 11;
   document.addEventListener("keydown", keydownAction);
+  letterBtns.addEventListener("click", buttonPress);
+  let clearBtns = letterBtns.getElementsByTagName("button");
+  for (let i=0; i<clearBtns.length; i++){
+    clearBtns[i].style.backgroundColor = "white";
+  }
   startBtn.disabled = true;
   //fetch request gets one word with swear words off
   var requestUrl = 'https://random-word-api.herokuapp.com/word?number=1&swear=0';
@@ -78,9 +90,8 @@ function buildWord() {
 
 //listen for keys pressed
 function keydownAction(event) {
+  target = event.target;
   keyPressed = event.key.toUpperCase();
-  var stringLetters = "abcdefghijklmnopqrstuvwxyz";
-  var letters = stringLetters.split("");
   if (!letters.includes(event.key)) {
     //if the pressed key is not a letter, return
     return;
@@ -93,9 +104,11 @@ function keydownAction(event) {
 
 //check if letter is in current word
 function checkLetter(keyPressed){
-  var letterInWord = false;
   if (choicesUp.includes(keyPressed)) {
       letterInWord = true;
+      target.style.backgroundColor = "green";
+    } else {
+      target.style.backgroundColor = "red";
     }
   if (letterInWord) {
     for (let i = 0; i < numSpaces; i++) {
@@ -107,7 +120,34 @@ function checkLetter(keyPressed){
     }
   }
 }
+//check for button press
+function buttonPress(event) {
+  target = event.target;
+  if (target.className != "letter") return;
 
+  btnPressed = target.textContent;
+  //check the letter, and check for a win
+  checkLetter(btnPressed)
+  checkWin();
+}
+
+// function checkBtnLetter(btnPressed){
+//   if (choicesUp.includes(btnPressed)) {
+//       letterInWord = true;
+//     }
+//   if (letterInWord) {
+//     target.style.backgroundColor = "green";
+//     for (let i = 0; i < numSpaces; i++) {
+//       //check each space in the word, and if the letter matches, fill it in
+//       if (word.charAt(i) === btnPressed) {
+//         blanks[i] = btnPressed;
+//         currentWord.textContent = blanks.join(" ")
+//       }
+//     }
+//   } else {
+//     target.style.backgroundColor = "red";
+//   }
+// }
 //check if all the letters have been filled
 function checkWin() {
   if (word === blanks.join("")) {
@@ -122,6 +162,8 @@ function winGame() {
   winsText.textContent = wins;
   localStorage.setItem("winCount", wins);
   startBtn.textContent = "Play Again";
+  document.removeEventListener("keydown", keydownAction);
+  letterBtns.removeEventListener("click", buttonPress);
 }
 function loseGame() {
   currentWord.textContent = "GAME OVER";
@@ -130,6 +172,8 @@ function loseGame() {
   lossesText.textContent = losses;
   localStorage.setItem("loseCount", losses);
   startBtn.textContent = "Play Again";
+  document.removeEventListener("keydown", keydownAction);
+  letterBtns.removeEventListener("click", buttonPress);
 }
 
 //functions to show how-to-play overlay on click of button
