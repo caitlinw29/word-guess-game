@@ -141,7 +141,7 @@ function checkWin() {
 }
 //functions for setting the game up if user wins or loses
 function winGame() {
-  currentWord.textContent = "YOU WON!!! ";
+  currentWord.textContent += "\r\n \r\n YOU WON!!!";
   wins++;
   startBtn.disabled = false;
   winsText.textContent = wins;
@@ -151,7 +151,8 @@ function winGame() {
   letterBtns.removeEventListener("click", buttonPress);
 }
 function loseGame() {
-  currentWord.textContent = "GAME OVER";
+  //replace text to have incomplete word and game over
+  currentWord.textContent = word + "\r\n \r\n GAME OVER";
   losses++;
   startBtn.disabled = false;
   lossesText.textContent = losses;
